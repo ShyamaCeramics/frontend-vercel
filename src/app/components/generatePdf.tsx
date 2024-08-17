@@ -16,7 +16,7 @@ const GeneratePdf: React.FC<props> = ({ html }: any) => {
             unit: 'px',
             format: [360, 640]
         });
-        doc.addImage(image, 'PNG', 0, 0, 200, 640);
+        doc.addImage(image, 'PNG', 0, 0, 95, 640);
         doc.save('mobile-size.pdf');
     }
 
