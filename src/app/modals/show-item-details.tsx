@@ -41,7 +41,7 @@ const ShowItemDetails = ({ currentItem, isLoadingData = true }: any) => {
                             <div className="modal-body">
                                 <div className="row">
                                     <div className="col-12 col-md-6">
-                                        <div className="container-d-c" style={{ height: '200px', display: 'flex', alignItems: 'center', overflowY: 'hidden' }}>
+                                        <div className="container-d-c height-200-300" style={{ display: 'flex', alignItems: 'center', overflowY: 'hidden' }}>
                                             <ImageCarousel
                                                 img1={images[0] || ''}
                                                 img2={images[1] || ''}
