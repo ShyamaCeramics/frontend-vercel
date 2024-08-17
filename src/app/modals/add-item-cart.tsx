@@ -41,7 +41,7 @@ const AddItemInCart = ({ currentItem, isLoadingData = true }: any) => {
                                             <Image className='container-d-c-img' src={item.img} alt="Snow" style={{ height: '100%', width: '100%' }} />
                                         } */}
                                         <div className="container-d-c" style={{ height: '200px', display: 'flex', alignItems: 'center', overflowY: 'hidden' }}>
-                                            <ImageCarousel img1={img1} img2={img2} img3={img3} slideIndex={slideIndex} setSlideIndex={setSlideIndex} />
+{/*                                             <ImageCarousel img1={img1} img2={img2} img3={img3} slideIndex={slideIndex} setSlideIndex={setSlideIndex} /> */}
                                         </div>
                                     </div>
                                     <div className="col-12 col-md-6">
