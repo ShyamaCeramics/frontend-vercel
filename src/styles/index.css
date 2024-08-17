@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.react-tel-input .form-control {
+    @apply !w-full py-6 !text-base;
+}
+
+.opt-container {
+    @apply flex justify-between gap-2;
+}
+
+.opt-container input {
+    @apply !mr-0 flex-1 py-5 outline-none;
+}
+
+
+* {
+    overflow-x: hidden;
+}
+
+body {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+:root {
+    --baseColor: orange;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.navbar-custom {
+    background-color: var(--baseColor);
+}
+
+/* Modify brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: var(--baseColor);
+}
+
+.container-d-c {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.container-d-c-img {
+    transition: filter 0.5s;
+}
+
+.container-d-c:hover .container-d-c-img {
+    filter: brightness(60%);
+}
+
+/* Bottom left text */
+.bottom-left-d-c {
+    position: absolute;
+    left: 16px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.bottom-right-t-c {
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    z-index: 9999;
+}
+
+.bottom-left-d-c-btn {
+    color: white;
+}
+
+.bottom-left-d-c-btn:hover {
+    background-color: white;
+    color: orange;
+}
+
+.active_pending_button {
+    background-color: orange;
+    color: white !important;
+}
+
+.active_all_button {
+    background-color: skyblue;
+    color: white !important;
+}
+
+.active_accepted_button {
+    background-color: green;
+    color: white !important;
+}
+
+.active_rejected_button {
+    background-color: red;
+    color: white !important;
+}
+
+.active_closed_button {
+    background-color: yellowgreen;
+    color: white !important;
+}
+
+.navbar-collapse {
+    visibility: visible;
+}
+
+.modal {
+    padding-right: 0;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+}
+
+.mySlides {
+    display: none;
+}
+
+img {
+    vertical-align: middle;
+}
+
+/* Slideshow container */
+.slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+}
+
+/* Caption text */
+.text {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active {
+    /* background-color: #717171; */
+}
+
+/* Fading animation */
+.fade {
+    animation-name: fade;
+    animation-duration: 2.5s;
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+    .text {
+        font-size: 11px
+    }
+}
+
+.important-background {
+    background-color: #ececa9 !important;
+    padding: 0; /* If you also need to include padding */
+}
+
+
+
+
+
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden; /* Ensures content does not overflow */
+}
+
+.mySlides {
+    display: none;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 3px;
+    user-select: none;
+    background-color: rgba(0,0,0,0.5); /* Background color for visibility */
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
