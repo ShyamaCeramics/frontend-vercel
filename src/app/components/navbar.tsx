@@ -20,7 +20,7 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
         <UpdateUserDetails />
         <nav
             className="navbar navbar-expand-lg bg-body-tertiary navbar-custom important-background"
-            style={{paddingBottom: '10px'}}
+            style={{ paddingBottom: '10px' }}
         >
             <div className="container-fluid">
                 <div className="row" style={{ width: '100%', textAlign: 'center' }}>
@@ -31,20 +31,27 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
                         </div>
                     </div>
                     <div className="col-sm-12 col-xs-12 col-12 col-md-3">
-                        <div style={{ display: 'flex', marginTop: '21px' }}>
-                            <FaPhone style={{ fontSize: '18px', color: 'green', marginRight: '10px' }} />
-                            <div>+91 9045361969</div>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            marginTop: '21px',
+                            fontSize: '13px',
+                            textAlign: 'left'
+                        }}>
+                            <div><span style={{ fontWeight: 'bold' }}>Dipanshu: </span>+91 9045361969</div>
+                            <div><span style={{ fontWeight: 'bold' }}>Sunil Saini: </span>+91 9756276037</div>
+                            <div><span style={{ fontWeight: 'bold' }}>Vipin Saini: </span>+91 7906563496</div>
                         </div>
                     </div>
                     <div className="col-sm-12 col-xs-12 col-12 col-md-5">
                         <div style={{ display: 'flex', marginTop: '21px' }}>
                             <FaLocationDot style={{ fontSize: '18px', color: 'blue' }} />
-                            <div>Shyama ceramic, Bauroli, Uttar Pradesh 203131</div>
+                            <div>Shyama ceramics, Nagla Kothi, Munda Kheda Road, Khurja, Bulandshahr 203131</div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </nav>
+                </div >
+            </div >
+        </nav >
         <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-custom">
             <div className="container-fluid">
                 <a className="navbar-brand" href={isAdmin ? "/admin/" : "/"}>
