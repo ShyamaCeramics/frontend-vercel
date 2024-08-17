@@ -45,7 +45,7 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
                     </div>
                     <div className="col-sm-12 col-xs-12 col-12 col-md-5">
                         <div style={{ display: 'flex', marginTop: '21px' }}>
-                            <FaLocationDot style={{ fontSize: '18px', color: 'blue' }} />
+                            <FaLocationDot style={{ fontSize: '20px', color: 'blue' }} />
                             <div>Shyama ceramics, Nagla Kothi, Munda Kheda Road, Khurja, Bulandshahr 203131</div>
                         </div>
                     </div>
@@ -85,6 +85,9 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
                             </a>
                             <a href="https://www.facebook.com/shyamaceramicpots" target="_blank" rel="noopener noreferrer">
                                 <FaFacebookSquare style={{ fontSize: '28px', color: '#3b5998' }} />
+                            </a>
+                            <a href="https://maps.app.goo.gl/ajST7B19SZ1qtwHg8" target="_blank" rel="noopener noreferrer">
+                                <FaSquareWhatsapp style={{ fontSize: '28px', color: 'green' }} />
                             </a>
                             <a href="https://maps.app.goo.gl/ajST7B19SZ1qtwHg8" target="_blank" rel="noopener noreferrer">
                                 <FaLocationDot style={{ fontSize: '28px', color: '#FF0000' }} />
