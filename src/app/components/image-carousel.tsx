@@ -27,11 +27,11 @@ const ImageCarousel = ({ img1, img2, img3, img4 }: { img1?: string, img2?: strin
                 >
                     <Image
                         className="d-block w-100"
-                        src={img}
+                        src={img || ''}
                         alt={`Slide ${index + 1}`}
                         height={500}  // Adjust height as needed
                         width={800}   // Adjust width as needed
-                        loader={() => img}
+                        loader={() => (img || '')}
                         style={{ height: '100%', width: '100%' }}
                     />
                 </div>
