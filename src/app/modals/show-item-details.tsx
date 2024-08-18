@@ -9,6 +9,7 @@ const ShowItemDetails = ({ currentItem, isLoadingData = true }: any) => {
     const [item, setItem] = useState<any>({});
     const [images, setImages] = useState<string[]>([]);
     const [renderedItems, setRenderedItems] = useState<any>(null);
+    const [slideIndex, setSlideIndex] = useState(0);
 
     useEffect(() => {
         if (currentItem && currentItem.images) {
@@ -87,6 +88,8 @@ const ShowItemDetails = ({ currentItem, isLoadingData = true }: any) => {
                                     <div className="col-12 col-md-6">
                                         <div className="container-d-c height-200-300" style={{ display: 'flex', alignItems: 'center', overflowY: 'hidden' }}>
                                             <ImageCarousel
+                                                slideIndex={slideIndex}
+                                                setSlideIndex={setSlideIndex}
                                                 img1={images[0] || ''}
                                                 img2={images[1] || ''}
                                                 img3={images[2] || ''}
