@@ -9,16 +9,19 @@ type props = {
 const GeneratePdf: React.FC<props> = ({ html }: any) => {
     const [selectState, setSelectState] = useState('');
 
-    const generateImage = async () => {
-        const image = await toPng(html.current, { quality: 0.95 });
+   const generateImage = async () => {
+        const element = html.current;
+        const width = element.offsetWidth;
+        const height = element.offsetHeight;
+        const image = await toPng(element, { quality: 0.95 });
         const doc = new jsPDF({
-            orientation: 'portrait',
+            orientation: width > height ? 'landscape' : 'portrait',
             unit: 'px',
-            format: [360, 640]
+            format: [width, height]
         });
-        doc.addImage(image, 'PNG', 0, 0, 95, 640);
-        doc.save('mobile-size.pdf');
-    }
+        doc.addImage(image, 'PNG', 0, 0, width, height);
+        doc.save('shyama-ceramics-products.pdf');
+    };
 
     function exportToWord(elementId: string, filename = 'document.doc') {
         const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
