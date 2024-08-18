@@ -1,21 +1,39 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const ImageCarousel = ({ img1, img2, img3, img4 }: { img1?: string, img2?: string, img3?: string, img4?: string }) => {
-    const [slideIndex, setSlideIndex] = useState(0);
+interface ImageCarouselInterface {
+    slideIndex: number;
+    setSlideIndex(arg: any): any;
+    img1?: string;
+    img2?: string;
+    img3?: string;
+    img4?: string;
+};
 
+const ImageCarousel = ({
+    slideIndex,
+    setSlideIndex,
+    img1,
+    img2,
+    img3,
+    img4
+}: ImageCarouselInterface) => {
     // Filter images to include only valid URLs
     const images = [img1, img2, img3, img4].filter(img => img && img.length > 0);
 
     // Navigate to the next slide
     const nextSlide = () => {
-        setSlideIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setSlideIndex((prevIndex: any) => (prevIndex + 1) % images.length);
     };
 
     // Navigate to the previous slide
     const prevSlide = () => {
-        setSlideIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+        setSlideIndex((prevIndex: any) => (prevIndex - 1 + images.length) % images.length);
     };
+
+    useEffect(() => {
+        setSlideIndex(0);
+    }, [img1, img2, img3, img4]);
 
     return (
         <div className="slideshow-container">
@@ -23,14 +41,14 @@ const ImageCarousel = ({ img1, img2, img3, img4 }: { img1?: string, img2?: strin
                 return <div
                     key={index}
                     className="mySlides"
-                    style={{ display: index === slideIndex ? 'block' : 'none' }}
+                    style={{ display: index === slideIndex ? 'block' : 'none', height: '200px', width: '250px' }}
                 >
                     <Image
                         className="d-block w-100"
                         src={img || ''}
                         alt={`Slide ${index + 1}`}
-                        height={500}  // Adjust height as needed
-                        width={800}   // Adjust width as needed
+                        height={100}  // Adjust height as needed
+                        width={100}   // Adjust width as needed
                         loader={() => (img || '')}
                         style={{ height: '100%', width: '100%' }}
                     />
