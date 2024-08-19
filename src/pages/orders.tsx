@@ -32,7 +32,7 @@ const OrdersList = () => {
             usersetaddress(apiOrdersData.user.address ? apiOrdersData.user.address : '');
             const allOrders = (apiOrdersData && apiOrdersData.data &&
                 apiOrdersData.data.length > 0) &&
-                apiOrdersData.data.filter((item: any) => item.status != 'Closed');
+                apiOrdersData.data.filter((item: any) => (item.status != 'Closed' && item.status != 'Rejected'));
             setFilteredOrdersData(allOrders);
         }
         setisLoadingOrdersData(false);
@@ -48,7 +48,7 @@ const OrdersList = () => {
         const acceptedOrders = ordersData && ordersData.filter((item: any) => item.status === 'Accepted');
         const rejectedOrders = ordersData && ordersData.filter((item: any) => item.status === 'Rejected');
         const closedOrders = ordersData && ordersData.filter((item: any) => item.status === 'Closed');
-        const allOrders = ordersData && ordersData.filter((item: any) => item.status != 'Closed');
+        const allOrders = ordersData && ordersData.filter((item: any) => (item.status != 'Closed' && item.status != 'Rejected'));
         if (isPendingActive) setFilteredOrdersData(pendingOrders);
         else if (isAcceptedActive) setFilteredOrdersData(acceptedOrders);
         else if (isRejectedActive) setFilteredOrdersData(rejectedOrders);
