@@ -6,6 +6,7 @@ import { Image, Upload } from 'antd';
 import { callToSaveProductDetail } from '@/utils/apis';
 import axios from "axios";
 import toast from 'react-hot-toast';
+import imageCompression from 'browser-image-compression';
 
 const getBase64 = (file: any): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -22,7 +23,6 @@ interface AddItemDetailsProps {
 
 const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddItemDetailsProps) => {
     // const [item, setItem] = useState<any>({});
-    const [sku, setsku] = useState<any>({});
     const [name, setname] = useState<any>({});
     const [height1, setheight1] = useState<any>('');
     const [dia1, setdia1] = useState<any>('');
@@ -85,7 +85,7 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
     const saveProductDetails = async (event: any) => {
         event.preventDefault();
 
-        if (!sku || !name || !price || !height1 || !dia1 || !(file && file.length)) {
+        if (!name || !price || !height1 || !dia1 || !(file && file.length)) {
             setFormSubmitted(true);
             return;
         }
@@ -112,7 +112,6 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
             img_url = img_url.toString();
 
             const productPayload = {
-                sku,
                 name,
                 size: selectedPieceSet,
                 height,
@@ -125,7 +124,6 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
             console.log(res);
         });
 
-        setsku('');
         setname('');
         setSelectedPieceSet('1_piece_set');
         setheight1('');
@@ -553,9 +551,33 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
         </div>
     }
 
-    function handleChange2(event: any) {
-        setFile(event.target.files);
-    }
+    const handleChange2 = async (event: any) => {
+        const files = Array.from(event.target.files);
+        const compressedFilesPromises = files.map(async (file: any) => {
+            try {
+                const options = {
+                    maxSizeMB: 2,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true
+                };
+                const compressedFile = await imageCompression(file, options);
+                return compressedFile;
+            } catch (error) {
+                console.error('Error compressing file:', error);
+                return file;
+            }
+        });
+
+        const compressedFiles = await Promise.all(compressedFilesPromises);
+        setFileList(compressedFiles.map(file => ({
+            uid: file.name,
+            name: file.name,
+            status: 'done',
+            url: URL.createObjectURL(file),
+        })));
+        setFile(compressedFiles);
+    };
+
 
     return <>
         <div className="modal" tabIndex={-1} id="add-items-details-modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -567,15 +589,6 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
                     </div>
                     <div className="modal-body">
                         <form onSubmit={saveProductDetails}>
-                            <div style={{ marginBottom: '10px', display: 'flex' }}>
-                                <div style={{ fontWeight: 'bold', width: '30%' }}>SKU: </div>
-                                <input
-                                    required
-                                    onChange={(event: any) => {
-                                        setsku(event.target.value)
-                                    }}
-                                    type="text" style={{ border: '1px solid black', paddingLeft: '5px', borderRadius: '5px', height: '25px' }} />
-                            </div>
                             <div style={{ marginBottom: '10px', display: 'flex' }}>
                                 <div style={{ fontWeight: 'bold', width: '30%' }}>Product Name: </div>
                                 <input
@@ -798,7 +811,7 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
                                 <input type="file" name="photos" onChange={handleChange2} multiple />
                             </div>
                             <br />
-                            {(!sku || !name || !price || !height1 || !dia1 || !file) && (
+                            {(!name || !price || !height1 || !dia1 || !file) && (
                                 <div style={{ color: 'red', fontSize: '13px', textAlign: 'center' }}>!! Some Fields are missing !!</div>
                             )}
                             <br />
@@ -808,7 +821,7 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
                                     className="btn btn-outline-warning"
                                     data-bs-dismiss="modal"
                                     style={{ marginRight: '10px' }}
-                                    disabled={!sku || !name || !price || !height1 || !dia1 || !file}
+                                    disabled={!name || !price || !height1 || !dia1 || !file}
                                 >
                                     Add Product
                                 </button>
@@ -817,7 +830,6 @@ const AddItemDetails = ({ setIsItemsDataLoading, fetchCurrentCatgoryData }: AddI
                                     className="btn btn-info"
                                     data-bs-dismiss="modal"
                                     onClick={() => {
-                                        setsku('');
                                         setname('');
                                         setSelectedPieceSet('1_piece_set');
                                         setheight1('');
