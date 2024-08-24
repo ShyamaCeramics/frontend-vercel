@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import WrapLayout from '@/app/components/wrap-layout';
 import toast from 'react-hot-toast';
@@ -135,6 +135,42 @@ const AdminDashboard = () => {
         }
     };
 
+    const LazyImage = ({ src, alt, ...props }: any) => {
+        const [isIntersecting, setIsIntersecting] = useState(false);
+        const imgRef = useRef(null);
+
+        useEffect(() => {
+            if (!window.IntersectionObserver) {
+                // Fallback for browsers without IntersectionObserver support
+                setIsIntersecting(true);
+                return;
+            }
+
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsIntersecting(true);
+                    observer.disconnect();
+                }
+            });
+
+            if (imgRef.current) {
+                observer.observe(imgRef.current);
+            }
+
+            return () => {
+                if (imgRef.current) {
+                    observer.unobserve(imgRef.current);
+                }
+            };
+        }, []);
+
+        return (
+            <div ref={imgRef} style={{ minHeight: '100px' }}>
+                {isIntersecting && <Image src={src} alt={alt} {...props} />}
+            </div>
+        );
+    };
+
     return <WrapLayout>
         <React.Fragment>
             <ShowItemDetails
@@ -252,7 +288,7 @@ const AdminDashboard = () => {
                                                                     <Col key={index} md={6} xl={4} xxl={4}>
                                                                         <Card style={{ marginBottom: '10px', zIndex: 2 }}>
                                                                             <div className="container-d-c">
-                                                                                <Image
+                                                                                <LazyImage
                                                                                     loader={() => imageUrlPath + itemImage}
                                                                                     className='container-d-c-img'
                                                                                     src={imageUrlPath + itemImage}
@@ -262,11 +298,6 @@ const AdminDashboard = () => {
                                                                                     style={{
                                                                                         height: 'auto',
                                                                                         width: 'auto'
-                                                                                    }}
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#show-items-details-modal"
-                                                                                    onClick={() => {
-                                                                                        setCurrentItemId(item.id);
                                                                                     }}
                                                                                 />
                                                                                 <div
