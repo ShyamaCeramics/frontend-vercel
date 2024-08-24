@@ -287,7 +287,12 @@ const AdminDashboard = () => {
                                                                 return (
                                                                     <Col key={index} md={6} xl={4} xxl={4}>
                                                                         <Card style={{ marginBottom: '10px', zIndex: 2 }}>
-                                                                            <div className="container-d-c">
+                                                                            <div className="container-d-c"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#show-items-details-modal"
+                                                                                onClick={() => {
+                                                                                    setCurrentItemId(item.id);
+                                                                                }}>
                                                                                 <LazyImage
                                                                                     loader={() => imageUrlPath + itemImage}
                                                                                     className='container-d-c-img'
