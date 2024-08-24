@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import WrapLayout from '@/app/components/wrap-layout';
 import img1 from '../assets/images/items/img1.jpg';
@@ -52,6 +52,8 @@ const Dashboard = () => {
     const [currentCategory, setCurrentCategory] = useState('');
     const [ordersData, setOrdersData] = useState<any>([]);
 
+    const observer = useRef<IntersectionObserver | null>(null);
+
     useEffect(() => {
         setisLoadingData(true);
         const currentItemData = itemsDataMain && itemsDataMain.filter((user: any) => user.id === currentItemId);
@@ -86,7 +88,7 @@ const Dashboard = () => {
         require("bootstrap/dist/js/bootstrap.bundle.min.js");
     }, []);
 
-    const apiBaseUrl = "https://shyamaceramics.in.net/api"
+    const apiBaseUrl = "https://shyamaceramics.in.net/api";
     const imageUrlPath = apiBaseUrl + "/resources/static/assets/uploads/";
 
     const makeOrder = async () => {
@@ -108,6 +110,42 @@ const Dashboard = () => {
                 <div className="col-12 col-md-9">
                     <div>Height: {height} <span style={{ fontWeight: 'bold' }}>in</span> Dia: {dia} <span style={{ fontWeight: 'bold' }}>in</span></div>
                 </div>
+            </div>
+        );
+    };
+
+    const LazyImage = ({ src, alt, ...props }: any) => {
+        const [isIntersecting, setIsIntersecting] = useState(false);
+        const imgRef = useRef(null);
+
+        useEffect(() => {
+            if (!window.IntersectionObserver) {
+                // Fallback for browsers without IntersectionObserver support
+                setIsIntersecting(true);
+                return;
+            }
+
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsIntersecting(true);
+                    observer.disconnect();
+                }
+            });
+
+            if (imgRef.current) {
+                observer.observe(imgRef.current);
+            }
+
+            return () => {
+                if (imgRef.current) {
+                    observer.unobserve(imgRef.current);
+                }
+            };
+        }, []);
+
+        return (
+            <div ref={imgRef} style={{ minHeight: '100px' }}>
+                {isIntersecting && <Image src={src} alt={alt} {...props} />}
             </div>
         );
     };
@@ -136,7 +174,7 @@ const Dashboard = () => {
                             (currentCategory && currentCategory.length > 0) ?
                                 <>
                                     <div className="row" style={{ marginLeft: '1%' }}>
-                                        <div className="col-sm-12 col-xs-12 col-6 col-md-6">
+                                        <div className="col-sm-9 col-xs-9 col-9 col-md-9">
                                             <div className="input-group flex-nowrap">
                                                 <span className="input-group-text" id="addon-wrapping">
                                                     @
@@ -153,32 +191,41 @@ const Dashboard = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="col-sm-12 col-xs-12 col-6 col-md-6">
-                                            <button
-                                                className="btn btn-success"
-                                                type="button"
-                                                onClick={makeOrder}
-                                                disabled={ordersData && ordersData.length < 1}
-                                                style={{ marginRight: '5px', marginBottom: '5px' }}
-                                            >
-                                                Order Now
-                                            </button>
-                                        </div>
                                     </div>
                                     {(itemsData && itemsData.length) ?
                                         <>
                                             <br />
-                                            <button
-                                                type="button"
-                                                className="btn btn-info"
-                                                onClick={() => {
-                                                    setCurrentCategory('');
-                                                    setOrdersData([]);
-                                                }}
-                                                style={{ width: '100px', marginLeft: '2%' }}
-                                            >
-                                                Back
-                                            </button>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-info"
+                                                    onClick={() => {
+                                                        setCurrentCategory('');
+                                                        setOrdersData([]);
+                                                    }}
+                                                    style={{ width: '100px', marginLeft: '2%' }}
+                                                >
+                                                    Back
+                                                </button>
+                                                <button
+                                                    className="btn btn-success"
+                                                    type="button"
+                                                    onClick={makeOrder}
+                                                    disabled={ordersData && ordersData.length < 1}
+                                                    style={{
+                                                        right: '5%',
+                                                        marginBottom: '5px',
+                                                        height: '60px',
+                                                        width: '60px',
+                                                        borderRadius: '50%',
+                                                        fontSize: '12px',
+                                                        position: 'fixed',
+                                                        zIndex: 99999
+                                                    }}
+                                                >
+                                                    Order Now
+                                                </button>
+                                            </div>
                                             <br />
                                             <Row style={{ marginTop: '20px', padding: '0 2%' }}>
                                                 {
@@ -222,7 +269,7 @@ const Dashboard = () => {
                                                                         onClick={() => {
                                                                             setCurrentItemId(item.id);
                                                                         }}>
-                                                                        <Image
+                                                                        <LazyImage
                                                                             loader={() => imageUrlPath + itemImage}
                                                                             className='container-d-c-img'
                                                                             src={imageUrlPath + itemImage}
