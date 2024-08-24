@@ -4,22 +4,16 @@ import React, { useEffect, useState } from 'react';
 interface ImageCarouselInterface {
     slideIndex: number;
     setSlideIndex(arg: any): any;
-    img1?: string;
-    img2?: string;
-    img3?: string;
-    img4?: string;
+    imagesArr: any;
 };
 
 const ImageCarousel = ({
     slideIndex,
     setSlideIndex,
-    img1,
-    img2,
-    img3,
-    img4
+    imagesArr
 }: ImageCarouselInterface) => {
     // Filter images to include only valid URLs
-    const images = [img1, img2, img3, img4].filter(img => img && img.length > 0);
+    const images = imagesArr.filter((img: string) => img && img.length > 0);
 
     // Navigate to the next slide
     const nextSlide = () => {
@@ -33,11 +27,11 @@ const ImageCarousel = ({
 
     useEffect(() => {
         setSlideIndex(0);
-    }, [img1, img2, img3, img4]);
+    }, [imagesArr]);
 
     return (
         <div className="slideshow-container">
-            {images.length > 0 && images.map((img, index) => {
+            {images.length > 0 && images.map((img: any, index: any) => {
                 return <div
                     key={index}
                     className="mySlides"
