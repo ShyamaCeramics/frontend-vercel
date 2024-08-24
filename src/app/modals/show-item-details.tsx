@@ -92,10 +92,7 @@ const ShowItemDetails = ({ currentItem, isLoadingData = true }: any) => {
                                             <ImageCarousel
                                                 slideIndex={slideIndex}
                                                 setSlideIndex={setSlideIndex}
-                                                img1={images[0] || ''}
-                                                img2={images[1] || ''}
-                                                img3={images[2] || ''}
-                                                img4={images[3] || ''}
+                                                imagesArr={images}
                                             />
                                         </div>
                                     </div>
