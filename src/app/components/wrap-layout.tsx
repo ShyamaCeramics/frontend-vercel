@@ -4,7 +4,7 @@ import OtpInput from 'react-otp-input';
 import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { auth } from "@/firebase.config";
+import { auth2, auth3 } from "@/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import Navbar from "./navbar";
@@ -17,7 +17,7 @@ import { callToFetchUserDetails, callToSaveUserDetails } from "@/utils/apis";
 
 const WrapLayout = ({ children }: any) => {
     const router = useRouter();
-    const aud_key = 'shyama-dc9e9';
+    const aud_keys = ["shyama-ceramics-1", "shyama-ceramics-2"];
     const [otp, setOtp] = useState("");
     const [ph, setPh] = useState("");
     const [loading, setLoading] = useState(false);
@@ -38,19 +38,27 @@ const WrapLayout = ({ children }: any) => {
     let recaptchaVerifier: any = null;
     function initializeRecaptchaVerifier() {
         if (!recaptchaVerifier) {
-            recaptchaVerifier = new RecaptchaVerifier(
-                auth,
-                "recaptcha-container",
-                {
-                    size: "invisible",
-                    callback: () => {
-                        // Callback function, if needed
-                    },
-                    "expired-callback": () => {
-                        // Expired callback function, if needed
-                    },
-                }
-            );
+            try {
+                recaptchaVerifier = new RecaptchaVerifier(
+                    auth2,
+                    "recaptcha-container",
+                    {
+                        size: "invisible",
+                        callback: () => { },
+                        "expired-callback": () => { },
+                    }
+                );
+            } catch {
+                recaptchaVerifier = new RecaptchaVerifier(
+                    auth3,
+                    "recaptcha-container",
+                    {
+                        size: "invisible",
+                        callback: () => { },
+                        "expired-callback": () => { },
+                    }
+                );
+            }
         }
     }
 
@@ -87,7 +95,7 @@ const WrapLayout = ({ children }: any) => {
                     if (res.user) {
                         localStorage.setItem('accessToken', res.user.accessToken);
                         let decodedToken: any = jwtDecode(res.user.accessToken);
-                        if (decodedToken.aud === aud_key) {
+                        if (aud_keys.includes(decodedToken.aud)) {
                             setUser(true);
                             setUserMobile(decodedToken.phone_number ? decodedToken.phone_number : '');
                             fetchUserDetails();
