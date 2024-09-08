@@ -160,7 +160,7 @@ const WrapLayout = ({ children }: any) => {
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             let decodedToken: any = jwtDecode(accessToken);
-            if (decodedToken.aud === aud_key) {
+            if (aud_keys.includes(decodedToken.aud)) {
                 setUser(true);
                 setUserMobile(decodedToken.phone_number ? decodedToken.phone_number : '');
                 fetchUserDetails();
