@@ -68,7 +68,21 @@ const WrapLayout = ({ children }: any) => {
 
         const formatPh = "+" + ph;
 
-        signInWithPhoneNumber(auth, formatPh, recaptchaVerifier)
+        try {
+            signInWithPhoneNumber(auth2, formatPh, recaptchaVerifier)
+                .then((confirmationResult) => {
+                    // @ts-ignore
+                    window.confirmationResult = confirmationResult;
+                    setLoading(false);
+                    setShowOTP(true);
+                    toast.success("OTP sent successfully!");
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+        } catch {
+            signInWithPhoneNumber(auth3, formatPh, recaptchaVerifier)
             .then((confirmationResult) => {
                 // @ts-ignore
                 window.confirmationResult = confirmationResult;
@@ -80,6 +94,7 @@ const WrapLayout = ({ children }: any) => {
                 console.log(error);
                 setLoading(false);
             });
+        }
     }
 
     // Function to handle OTP verification
