@@ -100,10 +100,11 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
                                 />
                             </span>
                         </div>
-                        <button className="btn btn-outline-success" type="button" onClick={() => {
-                            localStorage.clear();
-                            window.location.reload();
-                        }}>Sign out</button>
+                        {isAdmin &&
+                            <button className="btn btn-outline-success" type="button" onClick={() => {
+                                localStorage.clear();
+                                window.location.reload();
+                            }}>Sign out</button>}
                     </form>
                 </div>
             </div>
