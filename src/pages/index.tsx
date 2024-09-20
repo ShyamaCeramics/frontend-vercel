@@ -41,6 +41,43 @@ const categories = [
     }
 ];
 
+ const LazyImage = ({ src, alt, ...props }: any) => {
+        const [isIntersecting, setIsIntersecting] = useState(false);
+        const imgRef = useRef(null);
+
+        useEffect(() => {
+            if (!window.IntersectionObserver) {
+                // Fallback for browsers without IntersectionObserver support
+                setIsIntersecting(true);
+                return;
+            }
+
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsIntersecting(true);
+                    observer.disconnect();
+                }
+            });
+
+            if (imgRef.current) {
+                observer.observe(imgRef.current);
+            }
+
+            return () => {
+                if (imgRef.current) {
+                    observer.unobserve(imgRef.current);
+                }
+            };
+        }, []);
+
+        return (
+            <div ref={imgRef} style={{ minHeight: '100px' }}>
+                {isIntersecting && <Image src={src} alt={alt} {...props} />}
+            </div>
+        );
+    };
+
+
 const Dashboard = () => {
     const [itemInfo, setItemInfo] = useState<any>({});
     const [currentItemId, setCurrentItemId] = useState('');
@@ -110,42 +147,6 @@ const Dashboard = () => {
                 <div className="col-12 col-md-9">
                     <div>Height: {height} <span style={{ fontWeight: 'bold' }}>in</span> Dia: {dia} <span style={{ fontWeight: 'bold' }}>in</span></div>
                 </div>
-            </div>
-        );
-    };
-
-    const LazyImage = ({ src, alt, ...props }: any) => {
-        const [isIntersecting, setIsIntersecting] = useState(false);
-        const imgRef = useRef(null);
-
-        useEffect(() => {
-            if (!window.IntersectionObserver) {
-                // Fallback for browsers without IntersectionObserver support
-                setIsIntersecting(true);
-                return;
-            }
-
-            const observer = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsIntersecting(true);
-                    observer.disconnect();
-                }
-            });
-
-            if (imgRef.current) {
-                observer.observe(imgRef.current);
-            }
-
-            return () => {
-                if (imgRef.current) {
-                    observer.unobserve(imgRef.current);
-                }
-            };
-        }, []);
-
-        return (
-            <div ref={imgRef} style={{ minHeight: '100px' }}>
-                {isIntersecting && <Image src={src} alt={alt} {...props} />}
             </div>
         );
     };
