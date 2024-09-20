@@ -47,6 +47,42 @@ const categories = [
     }
 ];
 
+ const LazyImage = ({ src, alt, ...props }: any) => {
+        const [isIntersecting, setIsIntersecting] = useState(false);
+        const imgRef = useRef(null);
+
+        useEffect(() => {
+            if (!window.IntersectionObserver) {
+                // Fallback for browsers without IntersectionObserver support
+                setIsIntersecting(true);
+                return;
+            }
+
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsIntersecting(true);
+                    observer.disconnect();
+                }
+            });
+
+            if (imgRef.current) {
+                observer.observe(imgRef.current);
+            }
+
+            return () => {
+                if (imgRef.current) {
+                    observer.unobserve(imgRef.current);
+                }
+            };
+        }, []);
+
+        return (
+            <div ref={imgRef} style={{ minHeight: '100px' }}>
+                {isIntersecting && <Image src={src} alt={alt} {...props} />}
+            </div>
+        );
+    };
+
 const AdminDashboard = () => {
     const ref: any = React.useRef();
 
@@ -133,42 +169,6 @@ const AdminDashboard = () => {
         } catch (error) {
             toast.error("Error occurred while deleting item !");
         }
-    };
-
-    const LazyImage = ({ src, alt, ...props }: any) => {
-        const [isIntersecting, setIsIntersecting] = useState(false);
-        const imgRef = useRef(null);
-
-        useEffect(() => {
-            if (!window.IntersectionObserver) {
-                // Fallback for browsers without IntersectionObserver support
-                setIsIntersecting(true);
-                return;
-            }
-
-            const observer = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsIntersecting(true);
-                    observer.disconnect();
-                }
-            });
-
-            if (imgRef.current) {
-                observer.observe(imgRef.current);
-            }
-
-            return () => {
-                if (imgRef.current) {
-                    observer.unobserve(imgRef.current);
-                }
-            };
-        }, []);
-
-        return (
-            <div ref={imgRef} style={{ minHeight: '100px' }}>
-                {isIntersecting && <Image src={src} alt={alt} {...props} />}
-            </div>
-        );
     };
 
     return <WrapLayout>
