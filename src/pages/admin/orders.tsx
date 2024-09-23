@@ -216,7 +216,7 @@ const OrdersList = () => {
                                                 }}
                                                 data-bs-toggle="modal" data-bs-target="#orders-details-modal"
                                             >
-                                                {order.user.name}
+                                                {order?.user?.name}
                                             </td>
                                             <td
                                                 onClick={() => {
@@ -224,7 +224,7 @@ const OrdersList = () => {
                                                 }}
                                                 data-bs-toggle="modal" data-bs-target="#orders-details-modal"
                                             >
-                                                {order.user.mobile}
+                                                {order?.user?.mobile}
                                             </td>
                                             <td
                                                 onClick={() => {
@@ -232,7 +232,7 @@ const OrdersList = () => {
                                                 }}
                                                 data-bs-toggle="modal" data-bs-target="#orders-details-modal"
                                             >
-                                                {order.user.address}
+                                                {order?.user?.address}
                                             </td>
                                             <td
                                                 onClick={() => {
